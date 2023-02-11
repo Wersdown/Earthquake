@@ -6,7 +6,7 @@ export default defineConfig({
         VitePWA({
             registerType: 'prompt',
             devOptions: {
-                enabled: true
+                enabled: false
             },
             manifest: {
                 background_color: "#1A1B20",

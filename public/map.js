@@ -20,8 +20,31 @@ function initMap() {
       const magnitude = feature.getProperty("mag");
       return {
         icon: getCircle(magnitude),
+        clickable: true
       };
     });  
+
+    map.data.addListener('click', (feature) => {
+      infoWindow.setPosition(feature.latLng);
+      let details = feature.feature.j;
+
+      let content = document.createElement("div");
+
+      let title = document.createElement("h3");
+      let mag = document.createElement("p");
+      let date = document.createElement("p");
+
+      title.textContent = details.title;
+      mag.textContent = `Büyüklük: ${details.mag} - ${details.magType.toUpperCase()}`;
+      date.textContent = `Tarih: ${new Date(details.time).toLocaleString()}`
+
+      content.appendChild(title);
+      content.appendChild(mag);
+      content.appendChild(date);
+
+      infoWindow.setContent(content);
+      infoWindow.open(map);
+    })
   }
 
   map.addListener("dragend", () => {
@@ -102,9 +125,31 @@ function eqfeed_callback(results) {
       const coords = results.features[i].geometry.coordinates;
       const latLng = new google.maps.LatLng(coords[1], coords[0]);
   
-      new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: latLng,
         map: map,
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.setPosition(latLng);
+        let details = results.features[i].properties;
+
+        let content = document.createElement("div");
+
+        let title = document.createElement("h3");
+        let mag = document.createElement("p");
+        let date = document.createElement("p");
+
+        title.textContent = details.title;
+        mag.textContent = `Büyüklük: ${details.mag} - ${details.magType.toUpperCase()}`;
+        date.textContent = `Tarih: ${new Date(details.time).toLocaleString()}`
+
+        content.appendChild(title);
+        content.appendChild(mag);
+        content.appendChild(date);
+
+        infoWindow.setContent(content);
+        infoWindow.open(map);
       });
     }
   }
