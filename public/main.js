@@ -1,6 +1,17 @@
-let dropdownValue = localStorage.getItem('mapType') || 'circle';
+let dropdownValue, storyValue, loc, zoom;
 
-let storyValue = localStorage.getItem('story');
+try {
+    dropdownValue = localStorage.getItem('mapType') || 'circle';
+    storyValue = localStorage.getItem('story');
+    loc = localStorage.getItem("location") ? JSON.parse(localStorage.getItem("location")) : { lat: 39, lng: 36 }
+    zoom = localStorage.getItem("zoom") ? parseInt(localStorage.getItem("zoom")) : 6;    
+}
+catch (e) {
+    if (e) {
+        localStorage.clear();
+        window.location.reload();
+    }
+}
 
 if (storyValue != 'viewed') {
     document.querySelector('.load').classList.add('view');

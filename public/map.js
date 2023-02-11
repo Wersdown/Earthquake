@@ -1,22 +1,19 @@
-/**
- * @license
- * Copyright 2019 Google LLC. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
- */
-let map;
+let map, setCurrentLocation, infoWindow;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 6,
-    center: { lat: 39, lng: 36 },
+    zoom: zoom,
+    center: loc,
     mapTypeId: "terrain",
   });
+
+  infoWindow = new google.maps.InfoWindow();
 
   const script = document.getElementById("earthquake_GeoJSONP");
 
   script.src = "";
 
-  script.src = "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
+  script.src = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp";
 
   if (dropdownValue == "circle") {
     map.data.setStyle((feature) => {
@@ -26,6 +23,49 @@ function initMap() {
       };
     });  
   }
+
+  map.addListener("dragend", () => {
+    localStorage.setItem("location", JSON.stringify({lat: map.getCenter().lat(), lng: map.getCenter().lng()}))
+  })
+
+  map.addListener("zoom_changed", () => {
+    localStorage.setItem("zoom", map.getZoom());
+  })
+
+  setCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Şimdiki konumunuz");
+          infoWindow.open(map);
+          map.setCenter(pos);
+          console.log(map.getCenter().lat());
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Hata: Konum servisi başarısız oldu."
+      : "Hata: Tarayıcınız konum servisini desteklemiyor."
+  );
+  infoWindow.open(map);
 }
 
 function getCircle(magnitude) {
