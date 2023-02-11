@@ -13,7 +13,7 @@ function initMap() {
 
   script.src = "";
 
-  script.src = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp";
+  script.src = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp";
 
   if (dropdownValue == "circle") {
     map.data.setStyle((feature) => {
