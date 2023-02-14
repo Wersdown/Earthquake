@@ -27,7 +27,7 @@
             <p><a href="mailto:support@wersdown.dev">support@wersdown.dev</a></p>
         </center>
     </Prompt>
-    <Prompt icon="system-uicons:document-list" prompt-title="Depremler" id="allEarthquakesPrompt">
+    <Prompt icon="system-uicons:document-list" prompt-title="Son 400 Deprem" id="allEarthquakesPrompt">
         <ul>
             <li v-for="f of store.state.data">
                 <div
@@ -51,6 +51,7 @@
             Türü</Select>
         <PromptButton icon="system-uicons:document-stack" button-type="icon" promptID="detailsPrompt" />
         <PromptButton icon="system-uicons:document-list" button-type="icon" promptID="allEarthquakesPrompt" />
+        <Button icon="system-uicons:location" button-type="icon" @click="findCurrentLocation()" />
     </div>
     <Map v-model="mapData" promptID="earthquakeDetailsPrompt" />
 </template>
@@ -99,6 +100,41 @@ function closePrompt() {
     setTimeout(() => {
         allEarthquakes!.style.display = 'none';
     }, 400)
+}
+
+function handleLocationError(browserHasGeolocation: any, infoWindow: any, pos: any) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Hata: Konum servisi başarısız oldu."
+      : "Hata: Tarayıcınız konum servisini desteklemiyor."
+  );
+  infoWindow.open(mapData.value.map);
+}
+
+function findCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          mapData.value.infoWindow?.setPosition(pos);
+          mapData.value.infoWindow?.setContent("Şimdiki konumunuz");
+          mapData.value.infoWindow?.open(mapData.value.map);
+          mapData.value.map?.setCenter(pos);
+          console.log(mapData.value.map?.getCenter()?.lat());
+        },
+        () => {
+          handleLocationError(true, mapData.value.infoWindow, mapData.value.map?.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, mapData.value.infoWindow, mapData.value.map?.getCenter());
+    }    
 }
 
 selectValue.value = store.state.mapType;
