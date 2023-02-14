@@ -69,6 +69,8 @@ onMounted(() => {
 
     transition: .2s ease;
 
+    user-select: none;
+
     .content {
         display: flex;
         align-items: center;

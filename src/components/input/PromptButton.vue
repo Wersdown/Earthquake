@@ -81,6 +81,8 @@ onMounted(() => {
     color: #fff;
     width: fit-content;
 
+    user-select: none;
+
     transition: .2s ease;
 
     .content {
