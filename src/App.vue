@@ -4,23 +4,25 @@
         <h1>
             <Icon icon="system-uicons:document-words" /> Kaynaklar
         </h1>
-        <p>Kullandığımız kaynaklar arasında en üstte gelen kaynak "Google Maps JavaScript API" oldu. Aşağıya
-            koymuş
-            olduğumuz linkten dokümantasyona ulaşabilir ve bilgi edinebilirsiniz.</p>
-
+        <p>Depremleri gösterebilmek için <a href="https://github.com/orhanayd">orhanayd</a>'nin yapmış olduğu <a href="https://github.com/orhanayd/kandilli-rasathanesi-api">kandilli-rasathanesi-api</a> kaynağının açık sitesini kullandım ve tasarımı zenginleştirmek adına SystemUI Icon setini kullandım.</p>
         <div class="button-group">
-            <Button icon="system-uicons:document-stack">Google Earthquake API</Button>
-            <Button icon="system-uicons:grid">System UI Icons</Button>
+            <Button icon="system-uicons:document-stack" @click="openPage('https://github.com/orhanayd/kandilli-rasathanesi-api')">Kandilli Rasathanesi API</Button>
+            <Button icon="system-uicons:grid" @click="openPage('https://icones.js.org/collection/system-uicons')">System UI Icons</Button>
         </div>
+        <div class="line"></div>
+        <h1>
+            <Icon icon="system-uicons:warning-circle" /> Bilgilendirme
+        </h1>
+        <p>Kullanmış olduğum API'nin kaynak kodları <a href="https://github.com/orhanayd">orhanayd</a>'ye aittir, ticari amaçla kullanıma Boğaziçi Üniversitesi Rektörlüğü'nün yazılı izni olmadan izin verilmemektedir.</p>
         <div class="line"></div>
         <h1>
             <Icon icon="system-uicons:heart" /> Bağış
         </h1>
         <p>Buradan Türkiye'de ki, depremzedeler için bağışta bulunabilirsiniz.</p>
         <div class="button-group">
-            <Button icon="system-uicons:heart">AFAD</Button>
-            <Button icon="system-uicons:heart">Ahbap</Button>
-            <Button icon="system-uicons:heart">Kızılay</Button>
+            <Button icon="system-uicons:heart" @click="openPage('https://www.afad.gov.tr/depremkampanyasi2')">AFAD</Button>
+            <Button icon="system-uicons:heart" @click="openPage('https://ahbap.org/bagisci-ol')">Ahbap</Button>
+            <Button icon="system-uicons:heart" @click="openPage('https://www.kizilay.org.tr/Bagis/BagisYap/404/pazarcik-elbistan-depremi-bagisi')">Kızılay</Button>
         </div>
         <div class="line"></div>
         <center>
@@ -92,6 +94,10 @@ const selectValues: Array<SelectValue> = [
 ]
 
 store.commit('safeLoadValues');
+
+function openPage(url: string) {
+    window.open(url, '_blank');
+}
 
 function closePrompt() {
     if (!allEarthquakes) return;
