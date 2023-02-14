@@ -1,8 +1,11 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
 
 export default defineConfig({
     plugins: [
+        vue(),
         VitePWA({
             registerType: 'prompt',
             devOptions: {
@@ -100,5 +103,17 @@ export default defineConfig({
     ],
     server: {
         port: 80
+    },
+    resolve: {
+        alias: [
+            {
+                find: '@',
+                replacement: resolve(__dirname, 'src')
+            }
+        ]
+    },
+    build: {
+        chunkSizeWarningLimit: 600,
+        cssCodeSplit: false
     }
 });
