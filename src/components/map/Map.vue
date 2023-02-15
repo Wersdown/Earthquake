@@ -23,11 +23,20 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 function getCircle(magnitude: number) {
+    let fillColor = "#0ff";
+    if (magnitude >= 2) fillColor = "#ff0";
+    if (magnitude > 3) fillColor = "#fC0";
+    if (magnitude > 4) fillColor = "#fB0";
+    if (magnitude > 5) fillColor = "#f90";
+    if (magnitude > 6) fillColor = "#f70";
+    if (magnitude > 7) fillColor = "#f50";
+    if (magnitude > 8) fillColor = "#f30";
+    if (magnitude > 9) fillColor = "#f00";
     return {
         path: google.maps.SymbolPath.CIRCLE,
-        fillColor: "red",
-        fillOpacity: 0.2,
-        scale: Math.pow(2, magnitude) / 2,
+        fillColor,
+        fillOpacity: 1,
+        scale: 10,
         strokeColor: "white",
         strokeWeight: 0.5,
     };
@@ -154,8 +163,6 @@ onMounted(() => {
                 infoWindow?.setPosition(feature.latLng);
                 let details = feature.feature.j;
 
-                console.log(details);
-
                 let content = document.createElement("div");
 
                 let title = document.createElement("h3");
@@ -208,7 +215,7 @@ onMounted(() => {
                     const coords = data[i].geojson.coordinates;
                     const latLng = new google.maps.LatLng(coords[1], coords[0]);
 
-                    heatmapData.push(latLng);
+                    heatmapData.push({location: latLng, weight: data[i].mag / 100});
                 }
 
                 new google.maps.visualization.HeatmapLayer({
