@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/google.maps": "^3.51.1",
     "typescript": "^4.9.5",
-    "vite": "^4.1.1"
+    "vite": "^4.1.5"
   },
   "dependencies": {
     "@iconify/vue": "^4.1.0",
