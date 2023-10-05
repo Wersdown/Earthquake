@@ -28,7 +28,7 @@ For those who are unfamiliar with the license, here is a summary of its main poi
 
 ## Setting up a Workspace
 To run Wersdown Earthquake, first make sure Node.JS and TypeScript are installed.
-1. Clone the repository using `git clone --recurse-submodules https://github.com/Earthquake/Weather`.
+1. Clone the repository using `git clone --recurse-submodules https://github.com/Wersdown/Earthquake`.
 2. CD into the local repository.
 3. Install modules using `npm install`.
 4. Run server using `npm serve`
